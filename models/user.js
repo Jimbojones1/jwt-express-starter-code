@@ -9,6 +9,18 @@ const userSchema = mongoose.Schema({
     hashedPassword: String
 })
 
+// event listener for anytime a user document
+// is in encoded in JSON, it will run this function
+// which deletes the hashedpassword from the user
+// document
+userSchema.set('toJSON', {
+    transform: (doc, returnedObject) => {
+        delete returnedObject.hashedPassword
+        return returnedObject
+    }
+})
+
+
 
 const UserModel = mongoose.model('User', userSchema)
 

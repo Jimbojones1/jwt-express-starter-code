@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const bcrypt = require('bcrypt')
-
+const jwt = require('jsonwebtoken')
 // import our UserModel
 const UserModel = require('../models/user')
 
@@ -13,6 +13,7 @@ const saltRounds = 10;
 // to this route
 router.post('/sign-up', async function(req, res){
     try {
+        // guarentee the username is unique! if userInTheDatabase is undefined (that means there is no matching username)
         const userInTheDatabase = await UserModel.findOne({username: req.body.username})
 
         if(userInTheDatabase){
@@ -23,7 +24,9 @@ router.post('/sign-up', async function(req, res){
         req.body.hashedPassword = bcrypt.hashSync(req.body.password, saltRounds)
         const user = await UserModel.create(req.body)
 
-        res.status(201).json({user})
+        const token = jwt.sign({payload: user}, process.env.JWT_SECRET)
+
+        res.status(201).json({token})
 
     } catch(err){
         console.log(err)
