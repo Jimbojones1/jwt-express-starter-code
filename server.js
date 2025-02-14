@@ -12,11 +12,14 @@ mongoose.connection.on('connected', () => {
   console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
 });
 
+const testRouter = require('./controllers/test-jwt')
+
 app.use(cors());
 app.use(express.json());
 app.use(logger('dev'));
 
 // Routes go here
+app.use('/test-jwt', testRouter)
 
 app.listen(3000, () => {
   console.log('The express app is ready!');
