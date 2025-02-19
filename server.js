@@ -27,6 +27,11 @@ app.use(logger('dev'));
 // Routes
 app.use('/auth', authRouter);
 app.use('/test-jwt', testJwtRouter);
+
+// if you want to verify whole controllers
+// import verifytoken above
+// then just set it up as a middleware function like below
+// app.use(verifyToken)
 app.use('/users', usersRouter);
 
 // Start the server and listen on port 3000

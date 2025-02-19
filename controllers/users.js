@@ -5,8 +5,16 @@ const User = require('../models/user');
 
 const verifyToken = require('../middleware/verify-token');
 
+
+// examples of authenticating controller routes
 router.get('/', verifyToken, async (req, res) => {
+
+  // verifyToken defines req.user!
+  // you have access to req.user.username
+  // req.user._id
   try {
+
+    // only return the username property on all the users
     const users = await User.find({}, "username");
 
     res.json(users);

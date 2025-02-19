@@ -7,6 +7,10 @@ function verifyToken(req, res, next) {
     
     req.user = decoded.payload;
     
+    // next passes the the request object to the controller function
+    // you will have req.user availiable in every single controller function
+    // req.user.username
+    // req.user._id
     next();
   } catch (err) {
     res.status(401).json({ err: 'Invalid token.' });
